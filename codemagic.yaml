@@ -1,17 +1,25 @@
 workflows:
-  flutter-android:
-    name: Flutter Android Build
+  flutter-android-ios:
+    name: Flutter Android and iOS Build
     max_build_duration: 60
-
+    
     environment:
       flutter: stable
 
     scripts:
-      - name: Get Flutter packages
+      - name: Clean project
+        script: flutter clean
+
+      - name: Get packages
         script: flutter pub get
 
-      - name: Build APK
-        script: flutter build apk --release
+      - name: Build APK (Android)
+        script: flutter build apk --release --no-tree-shake-icons
+
+      - name: Build iOS
+        script: flutter build ios --release --no-codesign
 
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
+      - build/ios/iphoneos/Runner.app
+      
